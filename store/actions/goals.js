@@ -16,23 +16,6 @@ export function fetchGoals() {
       data ? JSON.parse(data) : {}
     );
     const uid = userData.userId;
-    // const uid = getState().auth.userId;
-    // console.log(
-    //   '****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************'
-    // );
-    // console.log(
-    //   'PROBLEM: const uid = getState().auth.userId... wherever we use this line it returns: ',
-    //   getState().auth.userId
-    // );
-    // console.log(
-    //   'Updating all places where we used to have this to instead be: '
-    // );
-    // console.log(
-    //   'const userData = await AsyncStorage.getItem('userData').then((data) => data ? JSON.parse(data) : {}); const uid = userData.userId;'
-    // );
-    // console.log(
-    //   '****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************'
-    // );
 
     try {
       console.log('Fetching goals...');
@@ -45,14 +28,7 @@ export function fetchGoals() {
 
         for (const key in normalizedGoalData) {
           const goal = normalizedGoalData[key];
-          const newGoal = new Goal(
-            key,
-            goal.ownerId,
-            goal.date,
-            goal.title,
-            goal.text,
-            goal.isDone
-          );
+          const newGoal = new Goal(key, goal.ownerId, goal.date, goal.number);
 
           allGoals.push(newGoal);
 
@@ -77,62 +53,7 @@ export function fetchGoals() {
   };
 }
 
-export function unReserveGoal(id) {
-  return async (dispatch) => {
-    try {
-      console.log(`Goal with id ${id} is expired.`);
-      //Since the goals reservation date has passed and no collectingDate has been set, reset these values as:
-      const updatedGoal = {
-        reservedUserId: '',
-        collectingUserId: '',
-        newOwnerId: '',
-        status: 'redo',
-        readyDate: new Date().toISOString(), //Current date
-        reservedDate: '',
-        reservedUntil: '',
-        suggestedDate: '',
-        collectingDate: '',
-        collectedDate: '',
-        projectId: '',
-        sellerAgreed: '',
-        buyerAgreed: '',
-      };
-
-      console.log('Data to update expired goal with: ', updatedGoal);
-
-      // Perform the API call - update the goal that has been expired
-      const returnedGoalData = await firebase.database().ref(`goals/${id}`).update(updatedGoal);
-
-      console.log('Data expired goal was updated to:', returnedGoalData);
-
-      dispatch({
-        type: CHANGE_GOAL_STATUS,
-        pid: id,
-        goalData: updatedGoal,
-      });
-    } catch (error) {
-      console.log('Error in actions/goals/unReserveGoal: ', error);
-      throw error;
-    }
-  };
-}
-
-export const deleteGoal = (goalId) => {
-  return async (dispatch) => {
-    try {
-      console.log(`Attempting to delete goal with id: ${goalId}...`);
-      await firebase.database().ref(`goals/${goalId}`).remove();
-
-      dispatch({ type: DELETE_GOAL, pid: goalId });
-      console.log(`...goal deleted!`);
-    } catch (error) {
-      console.log('Error in actions/goals/deleteGoal: ', error);
-      throw new Error(error.message);
-    }
-  };
-};
-
-export function createGoal(title, text) {
+export function createGoal(number) {
   return async (dispatch) => {
     const currentDate = new Date().toISOString();
     const userData = await AsyncStorage.getItem('userData').then((data) =>
@@ -147,8 +68,7 @@ export function createGoal(title, text) {
       const goalData = {
         ownerId,
         date: currentDate,
-        title,
-        text,
+        number,
       };
 
       const { key } = await firebase.database().ref('goals').push(goalData);
@@ -165,33 +85,6 @@ export function createGoal(title, text) {
       console.log(`...created new goal with id ${key}:`, newGoalData);
     } catch (error) {
       console.log('Error in actions/goals/createGoal: ', error);
-      throw error;
-    }
-  };
-}
-
-export function updateGoal(id, title, text, isDone) {
-  return async (dispatch) => {
-    try {
-      console.log(`Attempting to update goal with id: ${id}...`);
-
-      const dataToUpdate = {
-        title,
-        text,
-        isDone,
-      };
-
-      const returnedGoalData = await firebase.database().ref(`goals/${id}`).update(dataToUpdate);
-
-      console.log(`...updated goal with id ${id}:`, returnedGoalData);
-
-      dispatch({
-        type: UPDATE_GOAL,
-        pid: id,
-        goalData: dataToUpdate,
-      });
-    } catch (error) {
-      console.log('Error in actions/goals/updateGoal: ', error);
       throw error;
     }
   };

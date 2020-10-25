@@ -127,7 +127,7 @@ const AuthScreen = () => {
         <ImageBackground
           source={{
             uri:
-              'https://images.unsplash.com/photo-1580715911279-6bc35abc2e4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2780&q=80',
+              'https://images.unsplash.com/photo-1551024506-0bccd828d307?ixlib=rb-1.2.1&auto=format&fit=crop&w=2800&q=80',
           }}
           resizeMode="cover"
           style={styles.backgroundImage}>
@@ -178,19 +178,18 @@ const AuthScreen = () => {
                   <ActivityIndicator size="small" color={Colors.month} />
                 ) : (
                   <Button
-                    color="#000"
-                    mode="outlined"
+                    color={Colors.primaryTextColor}
+                    backgroundColor={Colors.primaryBgColor}
+                    mode="contained"
                     contentStyle={{
                       justifyContent: 'center',
                       borderWidth: 0.25,
-                      borderColor: !isSignup ? Colors.month : Colors.year,
                     }}
                     labelStyle={{
                       paddingTop: 13,
                       paddingBottom: 9,
                       fontFamily: Styles.defaultFontFamily,
                       fontSize: 15,
-                      color: !isSignup ? Colors.month : Colors.year,
                     }}
                     onPress={authHandler}>
                     {isSignup ? 'Gå med' : 'Logga in'}
@@ -199,14 +198,14 @@ const AuthScreen = () => {
               </View>
               <View style={styles.buttonContainer}>
                 <Button
-                  color={!isSignup ? Colors.month : Colors.year}
+                  color={Colors.primaryBgColor}
+                  backgroundColor={Colors.primaryTextColor}
                   mode="contained"
                   style={{
                     width: '60%',
                     alignSelf: 'center',
                   }}
                   labelStyle={{
-                    color: '#fff',
                     paddingTop: 2,
                     fontFamily: Styles.defaultFontFamily,
                     fontSize: 9,

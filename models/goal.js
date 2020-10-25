@@ -1,13 +1,11 @@
 import moment from 'moment';
 
 class Goal {
-  constructor(id, ownerId, date, title, text, isDone) {
+  constructor(id, ownerId, date, number) {
     this.id = id;
     this.ownerId = ownerId;
     this.date = date;
-    this.title = title;
-    this.text = text;
-    this.isDone = isDone;
+    this.number = number;
   }
   get readableDate() {
     return moment(this.date).format('MMMM Do YYYY, hh:mm');

@@ -1,14 +1,15 @@
-import moment from 'moment';
-import React, { useState } from 'react';
-import { View, ScrollView, StyleSheet, Image } from 'react-native';
+import React, { useState, useCallback } from 'react';
+import { View, StyleSheet } from 'react-native';
 import { IconButton, Text } from 'react-native-paper';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import Card from '../components/UI/Card';
-import Goal from '../components/UI/Goal';
+import HorizontalScroll from '../components/UI/HorizontalScroll';
 import Rings from '../components/UI/Rings';
+import ActiveInsulin from '../components/sections/ActiveInsulin';
 import Colors from '../constants/Colors';
 import Styles from '../constants/Styles';
+import * as goalsActions from '../store/actions/goals';
 
 const HomeScreen = (props) => {
   //TBD: Find a better solution for this. Currently the user object does not update if we don't pull in all profiles
@@ -18,56 +19,67 @@ const HomeScreen = (props) => {
     state.profiles.allProfiles.find((profile) => profile.profileId === loggedInUserId)
   );
 
-  const today = moment().format('YYYY-MM-DD');
+  const dispatch = useDispatch();
 
-  const [currentYear, setCurrentYear] = useState(moment().year());
-  const [currentMonth, setCurrentMonth] = useState(moment().format('MMM'));
-  const [currentDay, setCurrentDay] = useState(today);
-  const [detailText, setDetailText] = useState('');
+  const [currentBS, setCurrentBS] = useState(0);
+  const [activeUnits, setActiveUnits] = useState();
 
-  const yearGoals = [
-    { id: '1', year: 2020, text: 'Göra så mycket bättre' },
-    { id: '2', year: 2021, text: 'Göra ännuså mycket bättre' },
+  const [currentNeededCorrection, setCurrentNeededCorrection] = useState(0);
+
+  const conditionalColor =
+    currentBS <= 4 ? '#33bbff' : currentBS > 9 ? '#ffc300' : currentBS > 13 ? '#c70039' : '#1F9236';
+
+  const neededCorrection = () => {
+    const valueToReduce = currentBS <= 5 ? 0 : currentBS - 5;
+    setCurrentNeededCorrection(valueToReduce / 2.5);
+  };
+
+  const submitActiveUnits = useCallback(async () => {
+    try {
+      dispatch(goalsActions.createGoal(activeUnits));
+    } catch (err) {
+      alert('Something went wrong');
+    }
+  }, [dispatch, activeUnits]);
+
+  const numbers = [
+    { id: '1', value: 1 },
+    { id: '2', value: 2 },
+    { id: '3', value: 3 },
+    { id: '4', value: 4 },
+    { id: '5', value: 5 },
+    { id: '6', value: 6 },
+    { id: '7', value: 7 },
+    { id: '8', value: 8 },
+    { id: '9', value: 9 },
+    { id: '10', value: 10 },
+    { id: '11', value: 11 },
+    { id: '12', value: 12 },
+    { id: '13', value: 13 },
+    { id: '14', value: 14 },
+    { id: '15', value: 15 },
+    { id: '16', value: 16 },
+    { id: '17', value: 17 },
+    { id: '18', value: 18 },
+    { id: '19', value: 19 },
+    { id: '20', value: 20 },
+    { id: '21', value: 21 },
+    { id: '22', value: 22 },
+    { id: '23', value: 23 },
+    { id: '24', value: 24 },
+    { id: '25', value: 25 },
   ];
 
-  const monthGoals = [
-    { id: '3', year: 2020, month: 'Jan', text: 'Göra så mycket bättre' },
-    { id: '54', year: 2020, month: 'Feb', text: 'Göra ännuså mycket bättre' },
-    { id: '6', year: 2020, month: 'Mar', text: 'Göra ännuså mycket bättre' },
-    { id: '33', year: 2020, month: 'Apr', text: 'Göra ännuså mycket bättre' },
-    { id: '63', year: 2020, month: 'Maj', text: 'Göra ännuså mycket bättre' },
-    { id: 'r2', year: 2020, month: 'Aug', text: 'Göra ännuså mycket bättre' },
-    { id: '46', year: 2020, month: 'Dec', text: 'Göra ännuså mycket bättre' },
-    { id: 'r4', year: 2021, month: 'Feb', text: 'Göra ännuså mycket bättre' },
+  const units = [
+    { id: '1', value: 1 },
+    { id: '2', value: 2 },
+    { id: '3', value: 3 },
+    { id: '4', value: 4 },
+    { id: '5', value: 5 },
+    { id: '6', value: 6 },
+    { id: '7', value: 7 },
+    { id: '8', value: 8 },
   ];
-
-  const yesterday = moment().subtract(1, 'days');
-
-  const dayGoals = [
-    {
-      date: today,
-      id: '36',
-      year: moment().year(),
-      month: moment().format('MMM'),
-      day: moment().date(),
-      weekDay: moment().format('dddd'),
-      text: 'Göra så mycket bättre',
-    },
-    {
-      date: yesterday,
-      id: '53',
-      year: yesterday.year(),
-      month: yesterday.format('MMM'),
-      day: yesterday.date(),
-      weekDay: yesterday.format('dddd'),
-      text: 'Göra så mycket bättre',
-    },
-  ];
-
-  //Change current day, month, year based on what the user has selected
-  const currentYearGoal = yearGoals.find((yearGoal) => yearGoal.year === currentYear);
-  const currentMonthGoal = monthGoals.find((monthGoal) => monthGoal.month === currentMonth);
-  const currentDayGoal = dayGoals.find((dayGoal) => dayGoal.date === currentDay);
 
   //Navigate to the edit screen and forward the profile id
   const editProfileHandler = () => {
@@ -81,34 +93,30 @@ const HomeScreen = (props) => {
       </View>
       <View>
         <Card style={{ ...styles.centered, ...styles.meSection }}>
-          <Image
-            source={{
-              uri:
-                'https://images.unsplash.com/photo-1580715911279-6bc35abc2e4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2780&q=80',
-            }}
-            style={{
-              position: 'absolute',
-              height: Styles.meHeight,
-              width: Styles.meHeight,
-            }}
-          />
-          <Text style={styles.meText}>Me</Text>
+          <Text style={styles.smallText}>Current Bloodsugar</Text>
+          <Text style={{ ...styles.meText, color: conditionalColor }}>{currentBS}</Text>
+          <Text style={styles.smallText}>mmol</Text>
         </Card>
         <Card style={{ top: Styles.amTop, ...styles.ampmSection }}>
-          <Text style={styles.ampmText}>AM</Text>
+          <Text style={styles.smallText}>Needed correction</Text>
+          <Text style={styles.ampmText}>{currentNeededCorrection}E</Text>
         </Card>
-        <ScrollView
-          style={Styles.scrollView}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          scrollEventThrottle={16}>
-          <Goal isYear goal={currentYearGoal ? currentYearGoal : {}} key="1" />
-          <Goal isMonth goal={currentMonthGoal ? currentMonthGoal : {}} key="2" />
-          <Goal isDay goal={currentDayGoal ? currentDayGoal : {}} key="3" />
-        </ScrollView>
-        <Card style={{ top: Styles.pmTop, ...styles.ampmSection }}>
-          <Text style={styles.ampmText}>PM</Text>
-        </Card>
+        <Text style={styles.smallText}>Blodsocker</Text>
+        <HorizontalScroll
+          onPress={setCurrentBS}
+          triggerFunction={neededCorrection}
+          scrollHeight={60}
+          scrollData={numbers}
+        />
+        <Text style={styles.smallText}>Tagna enheter</Text>
+        <HorizontalScroll
+          smallNumber
+          onPress={setActiveUnits}
+          triggerFunction={submitActiveUnits}
+          scrollHeight={60}
+          scrollData={units}
+        />
+        <ActiveInsulin />
         <IconButton
           style={styles.settingsButton}
           icon="settings"
@@ -116,7 +124,6 @@ const HomeScreen = (props) => {
           size={20}
           onPress={editProfileHandler}
         />
-        <Text style={styles.detailText}>{detailText}</Text>
       </View>
     </>
   );
@@ -134,11 +141,9 @@ const styles = StyleSheet.create({
     height: Styles.meHeight,
   },
   meText: {
-    backgroundColor: '#fff',
     fontFamily: Styles.defaultFontFamily,
-    fontSize: 40,
-    marginRight: 90,
-    borderRadius: 5,
+    fontSize: 50,
+    textAlign: 'center',
   },
   ringContainer: { position: 'absolute', top: 25, right: Styles.homeMargin },
   scrollView: {
@@ -152,12 +157,14 @@ const styles = StyleSheet.create({
     width: Styles.goalHeight,
     height: Styles.goalHeight,
   },
-  ampmText: {
-    color: Colors.day,
-    fontFamily: Styles.defaultFontFamily,
-    fontSize: 40,
+  smallText: {
     textAlign: 'center',
-    marginTop: 15,
+  },
+  ampmText: {
+    fontFamily: Styles.defaultFontFamily,
+    fontSize: 30,
+    textAlign: 'center',
+    marginTop: 5,
   },
   settingsButton: {
     position: 'absolute',

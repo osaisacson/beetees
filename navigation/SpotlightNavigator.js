@@ -3,9 +3,6 @@ import React from 'react';
 
 import usePopToTopOnBlur from '../hooks/usePopToTopOnBlur';
 import HomeScreen from '../screens/HomeScreen';
-import EditGoalScreen, {
-  screenOptions as editGoalScreenOptions,
-} from '../screens/addAndEdit/EditGoalScreen';
 import EditProfileScreen, {
   screenOptions as editProfileScreenOptions,
 } from '../screens/addAndEdit/EditProfileScreen';
@@ -35,11 +32,6 @@ export const SpotlightNavigator = ({ navigation }) => {
         name="EditProfile"
         component={EditProfileScreen}
         options={editProfileScreenOptions}
-      />
-      <SpotlightStackNavigator.Screen
-        name="EditGoal"
-        component={EditGoalScreen}
-        options={editGoalScreenOptions}
       />
     </SpotlightStackNavigator.Navigator>
   );

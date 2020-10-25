@@ -31,10 +31,11 @@ Then...
 - `firebase init` - select installing all options. Follow all defaults apart for functions, do not overwrite these.
 - In the firebase console > authentication set up your authentication for how you prefer your users sign in
 - Do a general search on the projectId for the project you cloned from, eg 'strukturen-5c143' and replace it across files with your current projectId
-- Do a general search for the former name of the project (eg. 'Strukturen' and 'strukturen') and replace as appropriate. For the API call (such as 'https://us-central1-strukturen.cloudfunctions.net/storeImage') ignore that for now, we deal with it in the next step.
+- Do a general search for the former name of the project (eg. 'Strukturen' and 'strukturen') and replace as appropriate.
+  NOTE: If you need to store pictures: For the API call 'https://us-central1-strukturen.cloudfunctions.net/storeImage' - In firebase console > cloud storage > set up cloud storage > follow defaults, but select closest region when prompted > go back to Project overview cogwheel > Project settings and check the region.
 - In firebase console > realtime database > create database > start in test mode
-- In firebase console > cloud storage > set up cloud storage > follow defaults, but select closest region when prompted > go back to Project overview cogwheel > Project settings and check the region
 - `cd functions` `npm install --save firebase-functions@latest`
 - `git init` `git add .` `git commit -m "first commit"` `git push` ...to check that github works as expected
-- `npm install` `npm start` to install dependencies
-- Open iOS and android simulators, `expo start` > press 'run on ios/android simulator' ...to see the project in your simulators
+- `npm install` to install dependencies
+- Open iOS and android simulators, `npm start` > press 'run on ios/android simulator' ...to see the project in your simulators
+- Log in
