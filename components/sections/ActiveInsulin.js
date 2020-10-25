@@ -13,6 +13,7 @@ const ActiveInsulin = (props) => {
 
   //Get original goals from state
   const goals = useSelector((state) => state.goals.availableGoals);
+  console.log('GOALS', goals);
 
   const dispatch = useDispatch();
 
@@ -39,8 +40,12 @@ const ActiveInsulin = (props) => {
     <View>
       {goals.map((item) => (
         <View key={item.id}>
-          <Text>{item.number}HOLA</Text>
-          <Text>{moment(item.date).format('MMMM Do YYYY, hh:mm')}</Text>
+          <Text style={{ textAlign: 'center' }}>
+            {moment(item.date).format('MMMM Do YYYY, HH:MM')}
+          </Text>
+          <Text style={{ textAlign: 'center', fontSize: 40, paddingBottom: 20 }}>
+            {item.number}E
+          </Text>
         </View>
       ))}
     </View>

@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, ScrollView } from 'react-native';
 import { IconButton, Text } from 'react-native-paper';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -87,7 +87,7 @@ const HomeScreen = (props) => {
   };
 
   return (
-    <>
+    <ScrollView>
       <View style={styles.ringContainer}>
         <Rings />
       </View>
@@ -117,6 +117,7 @@ const HomeScreen = (props) => {
           scrollData={units}
         />
         <ActiveInsulin />
+
         <IconButton
           style={styles.settingsButton}
           icon="settings"
@@ -125,7 +126,7 @@ const HomeScreen = (props) => {
           onPress={editProfileHandler}
         />
       </View>
-    </>
+    </ScrollView>
   );
 };
 
@@ -146,9 +147,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   ringContainer: { position: 'absolute', top: 25, right: Styles.homeMargin },
-  scrollView: {
-    height: Styles.homeMargin + Styles.goalHeight + Styles.homeMargin,
-  },
+
   ampmSection: {
     position: 'absolute',
     left: Styles.meHeight + Styles.homeMargin,
@@ -171,10 +170,6 @@ const styles = StyleSheet.create({
     top: 7,
     right: 6,
     zIndex: 100,
-  },
-  detailText: {
-    marginTop: 100,
-    padding: 10,
   },
 });
 
