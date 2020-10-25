@@ -1,0 +1,15 @@
+const vars = {
+  googleApiKey: 'Aafhdhfasdfsdfndvödnsvodvnre...', // Firebase console > Cloud messaging > Server key
+  firebaseConfig: {
+    apiKey: 'Ajsbcvsdjkfbnkwebnfwlefkdsndnfcsdc',
+    authDomain: 'projectId.firebaseapp.com',
+    databaseURL: 'https://projectId.firebaseio.com',
+    projectId: 'projectId',
+    storageBucket: 'projectId.appspot.com',
+    messagingSenderId: '1234567890',
+    appId: '1:1234567890:web:a0b1c2dkfjhsdfbsdfsdf',
+    measurementId: 'G-ABCDEFGHIJKLM',
+  },
+};
+
+export default vars;
