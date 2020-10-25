@@ -17,8 +17,8 @@ const expo = new Expo();
 
 // Creates a client
 const storage = new Storage({
-  projectId: 'strukturen-5c143',
-  keyFilename: 'strukturen-5c143-firebase.json',
+  projectId: 'beetees-e12dd',
+  keyFilename: 'beetees-e12dd-firebase.json',
 });
 
 exports.storeImage = functions.https.onRequest((request, response) => {
@@ -29,7 +29,7 @@ exports.storeImage = functions.https.onRequest((request, response) => {
       console.log(err);
       return response.status(500).json({ error: err });
     });
-    const bucket = storage.bucket('strukturen-5c143.appspot.com');
+    const bucket = storage.bucket('beetees-e12dd.appspot.com');
     const uuid = UUID();
 
     return bucket.upload(

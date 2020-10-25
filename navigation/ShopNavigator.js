@@ -86,12 +86,12 @@ export const ShopNavigator = () => {
           </View>
         );
       }}
-      initialRouteName="Strukturen"
+      initialRouteName="Beetees"
       drawerContentOptions={{
         activeTintColor: Colors.primary,
       }}>
       <ShopDrawerNavigator.Screen
-        name="Strukturen"
+        name="Beetees"
         component={TabNavigator}
         options={{
           drawerIcon: (props) => (

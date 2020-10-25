@@ -15,12 +15,12 @@ import { detailHeader, defaultNavOptions, defaultMainPageOptions } from './NavHe
 const SpotlightStackNavigator = createStackNavigator();
 
 export const SpotlightNavigator = ({ navigation }) => {
-  usePopToTopOnBlur(navigation, 'Strukturen');
+  usePopToTopOnBlur(navigation, 'Beetees');
 
   return (
     <SpotlightStackNavigator.Navigator screenOptions={defaultNavOptions}>
       <SpotlightStackNavigator.Screen
-        name="Strukturen"
+        name="Beetees"
         component={HomeScreen}
         options={defaultMainPageOptions}
       />

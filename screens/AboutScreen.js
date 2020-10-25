@@ -15,10 +15,10 @@ const AboutScreen = () => {
           source={require('./../assets/icon.png')}
         />
         <Paragraph style={{ ...styles.paragraph, textAlign: 'center' }}>
-          Strukturen är skapad 2020 av Ratatosk med stöd av en vilja av schtål.
+          Beetees är skapad 2020 av Ratatosk med stöd av en vilja av schtål.
         </Paragraph>
         <Paragraph style={{ ...styles.paragraph, textAlign: 'center' }}>
-          Målet är att samla lärdomar från Monkey Mindset.
+          Målet är att stötta diabetiker som behöver hålla manuell koll på sina insulindoser.
         </Paragraph>
       </ScrollView>
     </SafeAreaView>

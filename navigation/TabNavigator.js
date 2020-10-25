@@ -10,7 +10,7 @@ const TabStackNavigator = createMaterialBottomTabNavigator();
 export const TabNavigator = ({ navigation }) => {
   return (
     <TabStackNavigator.Navigator
-      initialRouteName="Strukturen"
+      initialRouteName="Beetees"
       labeled
       shifting
       activeColor={Colors.lightPrimary}
@@ -18,7 +18,7 @@ export const TabNavigator = ({ navigation }) => {
       barStyle={{ backgroundColor: Colors.primary }}>
       <TabStackNavigator.Screen
         unmountOnBlur
-        name="Strukturen"
+        name="Beetees"
         component={SpotlightNavigator}
         options={{
           unmountOnBlur: true,

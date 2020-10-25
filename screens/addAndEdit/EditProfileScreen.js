@@ -89,7 +89,7 @@ const EditProfileScreen = (props) => {
     } catch (err) {
       setError(err.message);
     }
-    props.navigation.navigate('Strukturen');
+    props.navigation.navigate('Beetees');
     setIsLoading(false);
   }, [dispatch, currentProfile, formState]);
 
